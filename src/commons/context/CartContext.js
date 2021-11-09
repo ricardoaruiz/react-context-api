@@ -11,14 +11,26 @@ export const CartProvider = ({ children }) => {
    * Add new item on cart
    */
   const addCartItem = React.useCallback((cartItem) => {
-    setCart(state => [ ...state, cartItem ])
+    setCart(items => {
+      const foundCartItem = items.find(item => item.id === cartItem.id)
+
+      return !foundCartItem 
+        ? [ ...items, { ...cartItem, quantidade: 1 } ] 
+        : items.map(item => item.id !== foundCartItem.id ? item : { ...foundCartItem, quantidade: foundCartItem.quantidade + 1 })
+    })
   }, [])
 
   /**
    * Remove an item from cart
    */
   const removerCartItem = React.useCallback((id) => {
-    setCart(state => state.filter(item => item.id !== id))
+    setCart(items => {
+      const foundCartItem = items.find(item => item.id === id)
+
+      return foundCartItem.quantidade === 1 
+        ? items.filter(item => item.id !== id) 
+        : items.map(item => item.id !== foundCartItem.id ? item : { ...foundCartItem, quantidade: foundCartItem.quantidade - 1 })
+    })
   }, [])
 
   const cartContextValues = {

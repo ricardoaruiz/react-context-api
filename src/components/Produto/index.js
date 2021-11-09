@@ -36,8 +36,7 @@ function Produto({
             id,
             nome,
             foto,
-            valor,
-            unidade
+            valor
           })}>
             <AddIcon />
           </IconButton>
