@@ -11,55 +11,61 @@ import {
   InputLabel,
   InputAdornment 
 } from '@material-ui/core';
+import { UserContext } from 'commons/context/UserContext';
 
-function Login({ name, setName, balance, setBalance }) {
+function Login() {
   const history = useHistory()
-  const hasBasicInfos = React.useMemo(() => name && balance, [balance, name])
 
   const goToMarket = React.useCallback(() => {
-    if (hasBasicInfos) {
       history.push('/feira')
-    }
-  }, [hasBasicInfos, history])
+  }, [history])
 
   return (
     <Container>
-      <Titulo>
-        Insira o seu nome
-      </Titulo>
-      <InputContainer>
-        <InputLabel>
-          Nome
-        </InputLabel>
-        <Input
-          type="text"
-          value={name}
-          onChange={(event) => setName(event.target.value)}
-        />
-      </InputContainer>
-      <InputContainer>
-        <InputLabel>
-          Saldo
-        </InputLabel>
-        <Input
-        type="number"
-        startAdornment={
-          <InputAdornment position="start">
-            R$
-          </InputAdornment>
-        }
-        value={balance}
-        onChange={(event) => setBalance(event.target.value)}
-      />
-      </InputContainer>
-      <Button
-        variant="contained"
-        color="primary"
-        onClick={goToMarket}
-        disabled={!hasBasicInfos}
-      >
-        Avançar
-      </Button>
+      <UserContext.Consumer>
+        {({name, setName, balance, setBalance}) => {
+          const hasBasicInfos = name && balance
+          return (
+          <>
+            <Titulo>
+              Insira o seu nome
+            </Titulo>
+            <InputContainer>
+              <InputLabel>
+                Nome
+              </InputLabel>
+              <Input
+                type="text"
+                value={name}
+                onChange={(event) => setName(event.target.value)}
+              />
+            </InputContainer>
+            <InputContainer>
+              <InputLabel>
+                Saldo
+              </InputLabel>
+              <Input
+              type="number"
+              startAdornment={
+                <InputAdornment position="start">
+                  R$
+                </InputAdornment>
+              }
+              value={balance}
+              onChange={(event) => setBalance(event.target.value)}
+            />
+            </InputContainer>
+            <Button
+              variant="contained"
+              color="primary"
+              onClick={goToMarket}
+              disabled={!hasBasicInfos}
+            >
+              Avançar
+            </Button>
+          </>
+        )}}
+      </UserContext.Consumer>
     </Container>
   )
 };

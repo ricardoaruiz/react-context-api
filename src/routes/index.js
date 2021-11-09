@@ -1,5 +1,7 @@
 import React from 'react'
 import { BrowserRouter, Switch, Route } from 'react-router-dom'
+
+import { UserContext } from 'commons/context/UserContext'
 import Login from 'pages/Login'
 import Feira from 'pages/Feira'
 import Carrinho from 'pages/Carrinho'
@@ -12,7 +14,14 @@ const Routes = () => {
     <BrowserRouter>
       <Switch>
         <Route path="/" exact >
-          <Login name={name} setName={setName} balance={balance} setBalance={setBalance} />
+          <UserContext.Provider value={{
+            name,
+            setName,
+            balance,
+            setBalance
+          }}>
+            <Login />
+          </UserContext.Provider>
         </Route>
         <Route path="/feira">
           <Feira name={name} balance={balance} />
