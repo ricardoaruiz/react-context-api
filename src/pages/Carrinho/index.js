@@ -1,13 +1,15 @@
+import { useHistory } from 'react-router-dom'
 import { Button, Snackbar, InputLabel } from '@material-ui/core';
 import MuiAlert from '@material-ui/lab/Alert';
 import { useState } from 'react';
 import { Container, Voltar, TotalContainer, PagamentoContainer} from './styles';
 
 function Carrinho() {
+  const history = useHistory()
   const [openSnackbar, setOpenSnackbar] = useState(false);
   return (
     <Container>
-      <Voltar />
+      <Voltar onClick={() => history.goBack()}/>
       <h2>
         Carrinho
       </h2>
