@@ -1,3 +1,4 @@
+import React from 'react'
 import {
   Container,
   Header,
@@ -6,9 +7,11 @@ import {
 import feira from './feira.json';
 import Produto from 'components/Produto';
 import NavBar from './NavBar';
+import { useUserContext } from 'commons/context/UserContext';
 
+function Feira() {
+  const { name, balance } = useUserContext()
 
-function Feira({ name, balance }) {
   return (
     <Container>
       <NavBar />
