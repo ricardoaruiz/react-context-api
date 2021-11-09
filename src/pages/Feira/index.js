@@ -17,7 +17,7 @@ function Feira() {
       <NavBar />
       <Header>
         <div>
-          <h2> Olá! {name} </h2>
+          <h2> Olá {name}!</h2>
           <h3> Saldo: {Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL'}).format(balance)} </h3>
         </div>
         <p>Encontre os melhores produtos orgânicos!</p>

@@ -2,6 +2,7 @@ import React from 'react'
 import { createContext, useContext } from 'react'
 
 const UserContext = createContext()
+UserContext.displayName = "UserContext"
 
 export const UserProvider = ({ children }) => {
 
