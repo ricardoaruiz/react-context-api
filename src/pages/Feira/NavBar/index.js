@@ -19,9 +19,9 @@ export default function NavBar() {
       >
         <Badge
           color="primary"
+          badgeContent={totalCartItemQuantity}
         >
           <ShoppingCartIcon />
-          {totalCartItemQuantity}
         </Badge>
       </IconButton>
     </Nav>
