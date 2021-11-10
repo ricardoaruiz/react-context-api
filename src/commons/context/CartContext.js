@@ -8,6 +8,29 @@ export const CartProvider = ({ children }) => {
   const [cart, setCart] = React.useState([])
 
   /**
+   * Change quantity of informed item
+   */
+  const changeCartItemQuantity = React.useCallback((itemId, quantity) => {
+    return cart.map(cartItem => cartItem.id === itemId 
+      ? { ...cartItem, quantidade: cartItem.quantidade + quantity }
+      : cartItem)
+  }, [cart])
+
+  /**
+   * Increment one in item quantity
+   */
+  const incrementCartItemQuantity = React.useCallback((itemId) => {
+    return changeCartItemQuantity(itemId, 1)
+  }, [changeCartItemQuantity])
+
+  /**
+   * Decrement one in item quantity
+   */
+  const decrementCartItemQuantity = React.useCallback((itemId) => {
+    return changeCartItemQuantity(itemId, -1)
+  }, [changeCartItemQuantity])
+
+  /**
    * Add new item on cart
    */
   const addCartItem = React.useCallback((cartItem) => {
@@ -16,31 +39,30 @@ export const CartProvider = ({ children }) => {
 
       return !foundCartItem 
         ? [ ...items, { ...cartItem, quantidade: 1 } ] 
-        : items.map(item => item.id !== foundCartItem.id ? item : { ...foundCartItem, quantidade: foundCartItem.quantidade + 1 })
+        : incrementCartItemQuantity(foundCartItem.id)
     })
-  }, [])
+  }, [incrementCartItemQuantity])
 
   /**
    * Remove an item from cart
    */
   const removeCartItem = React.useCallback((id) => {
     setCart(items => {
-      if (!items || !items.length) return []
+      const foundCartItem = items?.find(item => item.id === id)
 
-      const foundCartItem = items.find(item => item.id === id)
+      if (!foundCartItem) return
 
       return foundCartItem.quantidade === 1 
         ? items.filter(item => item.id !== id) 
-        : items.map(item => item.id !== foundCartItem.id ? item : { ...foundCartItem, quantidade: foundCartItem.quantidade - 1 })
+        : decrementCartItemQuantity(foundCartItem.id)
     })
-  }, [])
+  }, [decrementCartItemQuantity])
 
   /**
    * Return a item by id from cart
    */
   const getCartItem = React.useCallback((id) => {
-    const foundCartItem = cart ? cart.find(item => item.id === id) : null
-    return foundCartItem || null
+    return cart?.find(item => item.id === id) || null
   }, [cart])
 
   const cartContextValues = {
