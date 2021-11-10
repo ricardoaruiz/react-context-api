@@ -65,11 +65,19 @@ export const CartProvider = ({ children }) => {
     return cart?.find(item => item.id === id) || null
   }, [cart])
 
+  /**
+   * Get total quantity of cart
+   */
+  const totalCartItemQuantity = React.useMemo(() => {
+    return !cart?.length ? 0 : cart.reduce((total, item) => total += item.quantidade, 0)
+  }, [cart])
+
   const cartContextValues = {
     cart,
     addCartItem,
     removeCartItem,
-    getCartItem
+    getCartItem,
+    totalCartItemQuantity
   }
 
   return (
