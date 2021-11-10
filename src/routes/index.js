@@ -11,21 +11,21 @@ import Carrinho from 'pages/Carrinho'
 const Routes = () => {
   return (
     <BrowserRouter>
-        <Switch>
-          <UserProvider>
-            <Route path="/" exact >          
-              <Login />
-            </Route>
-            <CartProvider>
-              <Route path="/feira">
-                <Feira />
+        <UserProvider>
+          <CartProvider>
+            <Switch>
+              <Route path="/" exact >          
+                <Login />
               </Route>
-            </CartProvider>
-          </UserProvider>
-          <Route path="/carrinho">
-            <Carrinho />
-          </Route>
-        </Switch>
+                <Route path="/feira">
+                  <Feira />
+                </Route>
+              <Route path="/carrinho">
+                <Carrinho />
+              </Route>
+          </Switch>
+        </CartProvider>
+      </UserProvider>
     </BrowserRouter>
   )
 }

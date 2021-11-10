@@ -3,10 +3,14 @@ import { Button, Snackbar, InputLabel } from '@material-ui/core';
 import MuiAlert from '@material-ui/lab/Alert';
 import { useState } from 'react';
 import { Container, Voltar, TotalContainer, PagamentoContainer} from './styles';
+import { useCartContext } from 'commons/context/CartContext';
+import { formatCurrency } from 'commons/utils/number'
 
 function Carrinho() {
   const history = useHistory()
   const [openSnackbar, setOpenSnackbar] = useState(false);
+  const { totalCartPrice } = useCartContext()
+
   return (
     <Container>
       <Voltar onClick={() => history.goBack()}/>
@@ -19,7 +23,7 @@ function Carrinho() {
       <TotalContainer>
           <div>
             <h2>Total no Carrinho: </h2>
-            <span>R$ </span>
+            <span>{formatCurrency(totalCartPrice)}</span>
           </div>
           <div>
             <h2> Saldo: </h2>

@@ -72,12 +72,20 @@ export const CartProvider = ({ children }) => {
     return !cart?.length ? 0 : cart.reduce((total, item) => total + item.quantidade, 0)
   }, [cart])
 
+  /**
+   * Total cart price
+   */
+  const totalCartPrice = React.useMemo(() => {
+    return !cart?.length ? 0 : cart.reduce((total, item) => total + item.valor * item.quantidade, 0)
+  }, [cart])
+
   const cartContextValues = {
     cart,
     addCartItem,
     removeCartItem,
     getCartItem,
-    totalCartItemQuantity
+    totalCartItemQuantity,
+    totalCartPrice
   }
 
   return (
