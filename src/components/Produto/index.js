@@ -1,3 +1,4 @@
+import React from 'react'
 import { Container } from './styles';
 import { memo } from 'react';
 import { IconButton } from '@material-ui/core';
@@ -13,7 +14,13 @@ function Produto({
   valor,
   unidade
 }) {
-  const { addCartItem, removerCartItem } = useCartContext()
+  const { addCartItem, removeCartItem, getCartItem } = useCartContext()
+
+  const quantity = React.useMemo(() => {
+    const item = getCartItem(id)
+    return item ? item.quantidade : 0
+  }, [getCartItem, id])
+
   return (
       <Container>
         <div>
@@ -28,16 +35,19 @@ function Produto({
         <div>
           <IconButton
             color="secondary"
-            onClick={() => removerCartItem(id)}
+            onClick={() => removeCartItem(id)}
+            disabled={!quantity}
           >
             <RemoveIcon />
           </IconButton>
+          {quantity}
           <IconButton onClick={() => addCartItem({
             id,
             nome,
             foto,
             valor
-          })}>
+          })}
+          >
             <AddIcon />
           </IconButton>
         </div>

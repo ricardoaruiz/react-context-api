@@ -23,8 +23,10 @@ export const CartProvider = ({ children }) => {
   /**
    * Remove an item from cart
    */
-  const removerCartItem = React.useCallback((id) => {
+  const removeCartItem = React.useCallback((id) => {
     setCart(items => {
+      if (!items || !items.length) return []
+
       const foundCartItem = items.find(item => item.id === id)
 
       return foundCartItem.quantidade === 1 
@@ -33,10 +35,19 @@ export const CartProvider = ({ children }) => {
     })
   }, [])
 
+  /**
+   * Return a item by id from cart
+   */
+  const getCartItem = React.useCallback((id) => {
+    const foundCartItem = cart ? cart.find(item => item.id === id) : null
+    return foundCartItem || null
+  }, [cart])
+
   const cartContextValues = {
     cart,
     addCartItem,
-    removerCartItem
+    removeCartItem,
+    getCartItem
   }
 
   return (
