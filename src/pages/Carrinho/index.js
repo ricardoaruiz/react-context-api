@@ -5,11 +5,14 @@ import { useState } from 'react';
 import { Container, Voltar, TotalContainer, PagamentoContainer} from './styles';
 import { useCartContext } from 'commons/context/CartContext';
 import { formatCurrency } from 'commons/utils/number'
+import Produto from 'components/Produto';
+import { usePaymentContext } from 'commons/context/PaymentContext';
 
 function Carrinho() {
   const history = useHistory()
   const [openSnackbar, setOpenSnackbar] = useState(false);
-  const { totalCartPrice } = useCartContext()
+  const { cart, totalCartPrice } = useCartContext()
+  const { currentPaymentType } = usePaymentContext()
 
   return (
     <Container>
@@ -17,6 +20,10 @@ function Carrinho() {
       <h2>
         Carrinho
       </h2>
+      {currentPaymentType.name}
+      {cart.map(item => (
+        <Produto { ...item } key={item.id} />
+      ))}
       <PagamentoContainer>
         <InputLabel> Forma de Pagamento </InputLabel>
       </PagamentoContainer>
