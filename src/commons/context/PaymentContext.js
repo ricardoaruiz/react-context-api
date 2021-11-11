@@ -23,16 +23,25 @@ export const PaymentProvider = ({ children }) => {
   }, [])
 
   /**
+   * Total Cart Price with fees
+   */
+   const totalCartPriceWithFees = React.useMemo(() => totalCartPrice !== 0 
+   ? totalCartPrice * currentPaymentType.fees
+   : 0, [currentPaymentType.fees, totalCartPrice])
+
+  /**
    * Total balance
    */
   const totalBalance = React.useMemo(() => {
-    return balance - totalCartPrice
-  }, [balance, totalCartPrice])
+    return balance - totalCartPriceWithFees
+  }, [balance, totalCartPriceWithFees])
+
 
   const paymentContextValues = {
     paymentTypes,
     paymentType: currentPaymentType,
     setPaymentType,
+    totalCartPriceWithFees,
     balance,
     totalBalance
   }

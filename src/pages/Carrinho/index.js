@@ -11,8 +11,15 @@ import { usePaymentContext } from 'commons/context/PaymentContext';
 function Carrinho() {
   const history = useHistory()
   const [openSnackbar, setOpenSnackbar] = useState(false);
-  const { cart, totalCartPrice } = useCartContext()
-  const { paymentType, setPaymentType, paymentTypes, totalBalance, balance } = usePaymentContext()
+  const { cart } = useCartContext()
+  const { 
+    paymentType,
+    setPaymentType,
+    paymentTypes,
+    totalCartPriceWithFees,
+    totalBalance,
+    balance
+  } = usePaymentContext()
 
   return (
     <Container>
@@ -45,7 +52,7 @@ function Carrinho() {
       <TotalContainer>
         <div>
           <h2>Total no Carrinho: </h2>
-          <span>{formatCurrency(totalCartPrice)}</span>
+          <span>{formatCurrency(totalCartPriceWithFees)}</span>
         </div>
         <div>
           <h2> Saldo: </h2>
@@ -64,7 +71,7 @@ function Carrinho() {
         }}
         color="primary"
         variant="contained"
-        disabled={totalBalance < 0 || totalCartPrice === 0}
+        disabled={totalBalance < 0 || totalCartPriceWithFees === 0}
       >
         Comprar
        </Button>
