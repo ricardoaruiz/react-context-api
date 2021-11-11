@@ -1,5 +1,7 @@
 import React from 'react'
 import { createContext, useContext } from 'react'
+import { useCartContext } from './CartContext'
+import { useUserContext } from './UserContext'
 
 const PaymentContext = createContext()
 PaymentContext.displayName = 'PaymentContext'
@@ -12,16 +14,27 @@ const paymentTypes = [
 ]
 
 export const PaymentProvider = ({ children }) => {
+  const { totalCartPrice } = useCartContext()
+  const { balance } = useUserContext()
   const [currentPaymentType, setCurrentPaymentType] = React.useState(paymentTypes[0])
 
   const setPaymentType = React.useCallback((paymentTypeId) => {
     setCurrentPaymentType(paymentTypes.find(paymentType => paymentType.id === paymentTypeId))
   }, [])
 
+  /**
+   * Total balance
+   */
+  const totalBalance = React.useMemo(() => {
+    return balance - totalCartPrice
+  }, [balance, totalCartPrice])
+
   const paymentContextValues = {
     paymentTypes,
     paymentType: currentPaymentType,
-    setPaymentType
+    setPaymentType,
+    balance,
+    totalBalance
   }
 
   return (

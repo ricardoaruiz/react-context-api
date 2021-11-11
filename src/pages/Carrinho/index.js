@@ -12,7 +12,7 @@ function Carrinho() {
   const history = useHistory()
   const [openSnackbar, setOpenSnackbar] = useState(false);
   const { cart, totalCartPrice } = useCartContext()
-  const { paymentType, setPaymentType, paymentTypes } = usePaymentContext()
+  const { paymentType, setPaymentType, paymentTypes, totalBalance, balance } = usePaymentContext()
 
   return (
     <Container>
@@ -49,11 +49,11 @@ function Carrinho() {
         </div>
         <div>
           <h2> Saldo: </h2>
-          <span> R$ </span>
+          <span>{formatCurrency(balance)}</span>
         </div>
         <div>
           <h2> Saldo Total: </h2>
-          <span> R$ </span>
+          <span>{formatCurrency(totalBalance)}</span>
         </div>
       </TotalContainer>
 
@@ -64,6 +64,7 @@ function Carrinho() {
         }}
         color="primary"
         variant="contained"
+        disabled={totalBalance < 0 || totalCartPrice === 0}
       >
         Comprar
        </Button>
