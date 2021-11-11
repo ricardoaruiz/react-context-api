@@ -14,8 +14,8 @@ const paymentTypes = [
 ]
 
 export const PaymentProvider = ({ children }) => {
-  const { totalCartPrice } = useCartContext()
-  const { balance } = useUserContext()
+  const { totalCartPrice, clearCart } = useCartContext()
+  const { balance, setBalance } = useUserContext()
   const [currentPaymentType, setCurrentPaymentType] = React.useState(paymentTypes[0])
 
   const setPaymentType = React.useCallback((paymentTypeId) => {
@@ -36,6 +36,14 @@ export const PaymentProvider = ({ children }) => {
     return balance - totalCartPriceWithFees
   }, [balance, totalCartPriceWithFees])
 
+  /**
+   * 
+   */
+  const finishPayment = React.useCallback(() => {
+    clearCart()
+    setBalance(totalBalance)
+    setCurrentPaymentType(paymentTypes[0])
+  }, [clearCart, setBalance, totalBalance])
 
   const paymentContextValues = {
     paymentTypes,
@@ -43,7 +51,8 @@ export const PaymentProvider = ({ children }) => {
     setPaymentType,
     totalCartPriceWithFees,
     balance,
-    totalBalance
+    totalBalance,
+    finishPayment
   }
 
   return (

@@ -18,7 +18,8 @@ function Carrinho() {
     paymentTypes,
     totalCartPriceWithFees,
     totalBalance,
-    balance
+    balance,
+    finishPayment
   } = usePaymentContext()
 
   return (
@@ -68,6 +69,7 @@ function Carrinho() {
       <Button
         onClick={() => {
           setOpenSnackbar(true);
+          finishPayment();
         }}
         color="primary"
         variant="contained"

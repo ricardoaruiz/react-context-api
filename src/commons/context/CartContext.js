@@ -79,11 +79,19 @@ export const CartProvider = ({ children }) => {
     return !cart?.length ? 0 : cart.reduce((total, item) => total + item.valor * item.quantidade, 0)
   }, [cart])
 
+  /**
+   * Clear Cart
+   */
+  const clearCart = React.useCallback(() => {
+    setCart([])
+  }, [])
+
   const cartContextValues = {
     cart,
     addCartItem,
     removeCartItem,
     getCartItem,
+    clearCart,
     totalCartItemQuantity,
     totalCartPrice
   }
