@@ -14,10 +14,14 @@ const paymentTypes = [
 export const PaymentProvider = ({ children }) => {
   const [currentPaymentType, setCurrentPaymentType] = React.useState(paymentTypes[0])
 
+  const setPaymentType = React.useCallback((paymentTypeId) => {
+    setCurrentPaymentType(paymentTypes.find(paymentType => paymentType.id === paymentTypeId))
+  }, [])
+
   const paymentContextValues = {
     paymentTypes,
-    currentPaymentType,
-    setCurrentPaymentType
+    paymentType: currentPaymentType,
+    setPaymentType
   }
 
   return (
